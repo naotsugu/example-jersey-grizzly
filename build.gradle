@@ -21,6 +21,14 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.+'
     compile 'ch.qos.logback:logback-classic:1.+'
 
+    // H2
+    compile 'com.h2database:h2:1.4.191'
+
+    // EBean
+    compile 'org.avaje.ebeanorm:avaje-ebeanorm:7.1.1'
+    compile 'org.avaje:avaje-agentloader:2.1.2'
+    compile 'org.avaje.ebeanorm:avaje-ebeanorm-agent:4.9.1'
+
     testCompile 'junit:junit:4.+'
 
 }
