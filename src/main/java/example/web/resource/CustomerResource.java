@@ -1,13 +1,13 @@
 package example.web.resource;
 
-import example.domain.model.Address;
+import com.avaje.ebean.Ebean;
 import example.domain.model.Customer;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
+
 
 @Path("customers")
 public class CustomerResource {
@@ -16,8 +16,16 @@ public class CustomerResource {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Customer get(@PathParam("id") Long id) {
-        return new Customer(id, "Michael", " Stipe",
-                new Address("1016", "Hollywood", "CA", "90038", "US"));
+        return Ebean.find(Customer.class, id);
     }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response createCustomer(Customer customer) {
+        Ebean.save(customer);
+        return Response.created(
+                URI.create("/customers/" + customer.getId())).build();
+    }
+
 
 }

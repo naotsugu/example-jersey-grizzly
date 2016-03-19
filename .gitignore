@@ -39,6 +39,7 @@ hs_err_pid*
 *.classpath
 *.project
 *.settings
+*.sql
 /bin
 /subprojects/*/bin
 .DS_Store

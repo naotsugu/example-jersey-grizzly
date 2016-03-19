@@ -1,15 +1,23 @@
 package example.domain.model;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
+@Entity
 @XmlRootElement
 public class Customer implements Serializable {
 
+    @Id
     private Long id;
     private String firstName;
     private String lastName;
+    @Embedded
     private Address address;
+
+    Customer() { }
 
     public Customer(Long id, String firstName, String lastName, Address address) {
         this.id = id;

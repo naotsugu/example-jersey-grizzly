@@ -1,5 +1,8 @@
 package example;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.EbeanServer;
+import org.avaje.agentloader.AgentLoader;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -21,14 +24,16 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        //setupEbean();
+        setupEbean();
 
         final HttpServer server =
                 GrizzlyHttpServerFactory.createHttpServer(
                         BASE_URI,
-                        ResourceConfig.forApplicationClass(RsResourceConfig.class));
+                        ResourceConfig.forApplicationClass(RsResourceConfig.class), false);
 
+        server.start();
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
+
         openBrowser();
 
         log.info("Start grizzly. Press any key to exit.");
@@ -37,16 +42,16 @@ public class Main {
 
     }
 
-//    private static EbeanServer setupEbean() {
-//
-//        boolean success = AgentLoader.loadAgentFromClasspath(
-//                "avaje-ebeanorm-agent", "debug=1;packages=example.domain.model.**");
-//
-//        if (!success) log.error("ebeanorm agent not found - not dynamically loaded");
-//
-//        return Ebean.getServer("h2");
-//
-//    }
+    private static EbeanServer setupEbean() {
+
+        boolean success = AgentLoader.loadAgentFromClasspath(
+                "avaje-ebeanorm-agent", "debug=1;packages=example.domain.model.**");
+
+        if (!success) log.error("ebeanorm agent not found - not dynamically loaded");
+
+        return Ebean.getServer("h2");
+
+    }
 
     private static void openBrowser() {
         try {

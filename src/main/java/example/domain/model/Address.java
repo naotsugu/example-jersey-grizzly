@@ -1,7 +1,9 @@
 package example.domain.model;
 
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+@Embeddable
 public class Address implements Serializable {
 
     private String street;
@@ -9,6 +11,8 @@ public class Address implements Serializable {
     private String state;
     private String zip;
     private String country;
+
+    Address() { }
 
     public Address(String street, String city, String state, String zip, String country) {
         this.street = street;
