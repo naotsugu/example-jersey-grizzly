@@ -12,12 +12,6 @@ import java.net.URI;
 @Path("customers")
 public class CustomerResource {
 
-    @GET
-    @Path("{id}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Customer get(@PathParam("id") Long id) {
-        return Ebean.find(Customer.class, id);
-    }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
@@ -25,6 +19,53 @@ public class CustomerResource {
         Ebean.save(customer);
         return Response.created(
                 URI.create("/customers/" + customer.getId())).build();
+    }
+
+
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Customer get(@PathParam("id") Long id) {
+
+        Customer customer = Ebean.find(Customer.class, id);
+
+        if (customer == null)
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+
+        return customer;
+
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response update(Customer customer) {
+
+        Customer current = Ebean.find(Customer.class, customer.getId());
+
+        if (current == null)
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+
+        current.setFirstName(customer.getFirstName());
+        current.setLastName(customer.getLastName());
+        current.setAddress(customer.getAddress());
+        Ebean.update(current);
+
+        return Response.noContent().build();
+    }
+
+
+    @DELETE
+    @Path("{id}")
+    public Response delete(@PathParam("id") Long id) {
+
+        int count = Ebean.delete(Customer.class, id);
+
+        if (count != 1)
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+
+        return Response.noContent().build();
+
     }
 
 

@@ -3,6 +3,7 @@ package example;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import org.avaje.agentloader.AgentLoader;
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -30,6 +31,10 @@ public class Main {
                 GrizzlyHttpServerFactory.createHttpServer(
                         BASE_URI,
                         ResourceConfig.forApplicationClass(RsResourceConfig.class), false);
+
+        // static assets
+        server.getServerConfiguration().addHttpHandler(
+                new CLStaticHttpHandler(Main.class.getClassLoader(), "/assets/"), "/static");
 
         server.start();
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));

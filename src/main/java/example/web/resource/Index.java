@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
 @Path("/")
 public class Index {
@@ -15,7 +16,9 @@ public class Index {
 
     @GET
     public Response hello() {
-        return Response.ok("Hello jersey-grizzly!!").build();
+        return Response.seeOther(
+                UriBuilder.fromPath("/static/index.html").build()
+        ).build();
     }
 
 
