@@ -3,6 +3,7 @@ package example.web.resource;
 import com.avaje.ebean.Ebean;
 import example.domain.model.Customer;
 
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -29,8 +30,10 @@ public class CustomerResource {
 
         Customer customer = Ebean.find(Customer.class, id);
 
-        if (customer == null)
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        if (customer == null) {
+            // handled by EntityNotFoundExceptionMapper.
+            throw new EntityNotFoundException();
+        }
 
         return customer;
 

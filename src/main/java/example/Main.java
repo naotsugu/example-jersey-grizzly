@@ -52,7 +52,7 @@ public class Main {
         boolean success = AgentLoader.loadAgentFromClasspath(
                 "avaje-ebeanorm-agent", "debug=1;packages=example.domain.model.**");
 
-        if (!success) log.error("ebeanorm agent not found - not dynamically loaded");
+        if (!success) log.error("ebean agent not found - not dynamically loaded");
 
         return Ebean.getServer("h2");
 
