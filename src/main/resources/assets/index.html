@@ -113,6 +113,29 @@
         });
     </script>
 
+
+    <h2>Delete Customer(X-Http-Method-Override)</h2>
+    <div class="row">
+        <div class="col-xs-2">
+            <input type="text" id="idXDeleteRequestId" class="form-control" value="1" placeholder="ID">
+        </div>
+        <div class="col-xs-8">
+            <button type="button" id="idXDeleteRequestButton" class="btn btn-default">Delete</button>
+            <font id="idXDeleteResCode" color="red"></font>
+        </div>
+    </div>
+    <script>
+        document.getElementById("idXDeleteRequestButton").addEventListener("click", function(){
+            var request = new XMLHttpRequest();
+            var path = '/customers/' + document.getElementById("idXDeleteRequestId").value
+            request.open('GET', path, true);
+            request.setRequestHeader('X-Http-Method-Override', 'DELETE');
+            request.onload = function() {
+                document.getElementById("idXDeleteResCode").textContent = request.status;
+            };
+            request.send();
+        });
+    </script>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

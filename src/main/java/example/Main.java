@@ -10,6 +10,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.Priorities;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.UriBuilder;
 import java.awt.*;
 import java.io.IOException;
@@ -73,6 +75,8 @@ public class Main {
         public RsResourceConfig() {
 
             packages("example.web.resource");
+            packages("example.web.filter");
+            register(CacheControl.class, Priorities.HEADER_DECORATOR);
 
         }
     }
